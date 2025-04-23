@@ -2,12 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mini_github/domain/values/failure_state.dart';
 import 'package:mini_github/infrastructure/data_sources/github_data_source.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
-import 'github_data_source_test.mocks.dart';
+class MockDio extends Mock implements Dio {}
 
-@GenerateMocks([Dio])
 void main() {
   late MockDio mockDio;
   late GithubDataSource dataSource;
@@ -24,7 +22,7 @@ void main() {
         {"login": "user2", "id": 2},
       ];
 
-      when(mockDio.get(any)).thenAnswer(
+      when(() => mockDio.get(any())).thenAnswer(
         (_) async => Response(
           data: mockJson,
           statusCode: 200,
@@ -40,8 +38,8 @@ void main() {
       );
     });
 
-    test('returns failure when getUser fails', () async {
-      when(mockDio.get(any)).thenThrow(
+    test('returns failure when getAllUsers fails', () async {
+      when(() => mockDio.get(any())).thenThrow(
         DioException(
           requestOptions: RequestOptions(path: ''),
           error: 'Not Found',
@@ -49,6 +47,78 @@ void main() {
       );
 
       final result = await dataSource.getUser('invalid');
+      expect(result.isLeft(), true);
+      result.match(
+        (l) => expect(l, isA<CustomFailure>()),
+        (r) => fail("Expected left, got right"),
+      );
+    });
+
+    test('returns user detail when getUser succeeds', () async {
+      final mockJson = {"login": "user1", "id": 1};
+      when(() => mockDio.get(any())).thenAnswer(
+        (_) async => Response(
+          data: mockJson,
+          statusCode: 200,
+          requestOptions: RequestOptions(path: ''),
+        ),
+      );
+
+      final result = await dataSource.getUser('valid');
+      expect(result.isRight(), true);
+      result.match(
+        (l) => fail("Expected right, got left"),
+        (r) => expect(r.login, "user1"),
+      );
+    });
+
+    test('returns failure when getUser fails', () async {
+      when(() => mockDio.get(any())).thenThrow(
+        DioException(
+          requestOptions: RequestOptions(path: ''),
+          error: 'Not Found',
+        ),
+      );
+
+      final result = await dataSource.getUser('invalid');
+      expect(result.isLeft(), true);
+      result.match(
+        (l) => expect(l, isA<CustomFailure>()),
+        (r) => fail("Expected left, got right"),
+      );
+    });
+
+    test(
+      'returns list of repositories when getRepositories succeeds',
+      () async {
+        final mockJson = [
+          {"name": "repo1", "id": 1},
+          {"name": "repo2", "id": 2},
+        ];
+        when(() => mockDio.get(any())).thenAnswer(
+          (_) async => Response(
+            data: mockJson,
+            statusCode: 200,
+            requestOptions: RequestOptions(path: ''),
+          ),
+        );
+        final result = await dataSource.getUserRepos('valid');
+        expect(result.isRight(), true);
+        result.match(
+          (l) => fail("Expected right, got left"),
+          (r) => expect(r.length, 2),
+        );
+      },
+    );
+
+    test('returns failure when getRepositories fails', () async {
+      when(() => mockDio.get(any())).thenThrow(
+        DioException(
+          requestOptions: RequestOptions(path: ''),
+          error: 'Not Found',
+        ),
+      );
+      final result = await dataSource.getUserRepos('invalid');
       expect(result.isLeft(), true);
       result.match(
         (l) => expect(l, isA<CustomFailure>()),

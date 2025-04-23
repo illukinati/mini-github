@@ -27,7 +27,7 @@ class GithubRepositoryImpl implements GithubRepository {
           users
               .map((e) => e.toEntity())
               .where(
-                (u) => u.name.toLowerCase().contains(keyword.toLowerCase()),
+                (u) => u.login.toLowerCase().contains(keyword.toLowerCase()),
               )
               .toList(),
     );
