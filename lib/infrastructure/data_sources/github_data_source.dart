@@ -6,14 +6,21 @@ import 'package:mini_github/infrastructure/models/repo_model.dart';
 import 'package:mini_github/infrastructure/models/user_model.dart';
 
 class GithubDataSource {
+  final Dio dio;
+
+  GithubDataSource({Dio? dio}) : dio = dio ?? Dio();
+
   Future<Either<FailureState, List<UserModel>>> getAllUsers() async {
     try {
-      final dio = Dio();
       Response response;
       response = await dio.get(MyUrl.allUsersUrl);
-      final data = response.data;
-      List<UserModel> users = data.map((e) => UserModel.fromJson(e)).toList();
-      return right(users);
+      if (response.statusCode == 200) {
+        List<dynamic> data = response.data;
+        List<UserModel> users = data.map((e) => UserModel.fromJson(e)).toList();
+        return right(users);
+      } else {
+        return left(CustomFailure(response.statusMessage ?? ""));
+      }
     } on DioException catch (e) {
       return left(CustomFailure(e.toString()));
     } catch (e) {
@@ -23,7 +30,6 @@ class GithubDataSource {
 
   Future<Either<FailureState, UserModel>> getUser(String username) async {
     try {
-      final dio = Dio();
       Response response;
       response = await dio.get(MyUrl.userDetailUrl(username));
       final data = response.data;
@@ -40,12 +46,15 @@ class GithubDataSource {
     String username,
   ) async {
     try {
-      final dio = Dio();
       Response response;
       response = await dio.get(MyUrl.userReposUrl(username));
-      final data = response.data;
-      List<RepoModel> repos = data.map((e) => RepoModel.fromJson(e)).toList();
-      return right(repos);
+      if (response.statusCode == 200) {
+        List<dynamic> data = response.data as List<dynamic>;
+        List<RepoModel> repos = data.map((e) => RepoModel.fromJson(e)).toList();
+        return right(repos);
+      } else {
+        return left(CustomFailure(response.statusMessage ?? ""));
+      }
     } on DioException catch (e) {
       return left(CustomFailure(e.toString()));
     } catch (e) {
