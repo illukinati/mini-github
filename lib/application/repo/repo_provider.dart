@@ -24,3 +24,9 @@ class RepoNotifier extends StateNotifier<RepoState> {
 final getUserReposUseCaseProvider = Provider<GetUserReposUseCase>((ref) {
   return GetUserReposUseCase(ref.watch(githubRepositoryProvider));
 });
+
+final repoNotifierProvider = StateNotifierProvider<RepoNotifier, RepoState>((
+  ref,
+) {
+  return RepoNotifier(getUserRepos: ref.watch(getUserReposUseCaseProvider));
+});
