@@ -11,10 +11,13 @@ class RepoNotifier extends StateNotifier<RepoState> {
     state = RepoState.loading();
     try {
       final result = await getUserRepos.execute(username);
-      result.fold(
-        (l) => state = RepoState.error(l.message),
-        (r) => state = RepoState.reposFound(r),
-      );
+      result.fold((l) => state = RepoState.error(l.message), (r) {
+        if (r.isEmpty) {
+          state = RepoState.repoNotFound();
+        } else {
+          state = RepoState.reposFound(r);
+        }
+      });
     } catch (e) {
       state = RepoState.error(e.toString());
     }

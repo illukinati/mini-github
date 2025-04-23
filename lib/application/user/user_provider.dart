@@ -17,10 +17,13 @@ class UserNotifier extends StateNotifier<UserState> {
     state = UserState.loading();
     try {
       final result = await getAllUsersUseCase.execute();
-      result.fold(
-        (l) => state = UserState.error(l.message),
-        (r) => state = UserState.usersFound(r),
-      );
+      result.fold((l) => state = UserState.error(l.message), (r) {
+        if (r.isEmpty) {
+          state = UserState.userNotFound();
+        } else {
+          state = UserState.usersFound(r);
+        }
+      });
     } catch (e) {
       state = UserState.error(e.toString());
     }
@@ -43,10 +46,13 @@ class UserNotifier extends StateNotifier<UserState> {
     state = UserState.loading();
     try {
       final result = await searchUsersUseCase.execute(query);
-      result.fold(
-        (l) => state = UserState.error(l.message),
-        (r) => state = UserState.usersFound(r),
-      );
+      result.fold((l) => state = UserState.error(l.message), (r) {
+        if (r.isEmpty) {
+          state = UserState.userNotFound();
+        } else {
+          state = UserState.usersFound(r);
+        }
+      });
     } catch (e) {
       state = UserState.error(e.toString());
     }
