@@ -52,6 +52,7 @@ Widget searchBar({
                       onPressed: () {
                         FocusScope.of(context).unfocus();
                         effectiveSuffixPressed();
+                        controller.clear();
                       },
                       icon: Container(
                         decoration: BoxDecoration(
