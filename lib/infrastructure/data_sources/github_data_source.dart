@@ -12,7 +12,7 @@ class GithubDataSource {
 
   GithubDataSource({Dio? dio, DotEnv? dotEnv})
     : dio = dio ?? Dio(),
-      dotEnv = dotEnv ?? DotEnv();
+      dotEnv = dotEnv ?? dotenv;
 
   Future<Either<FailureState, List<UserModel>>> getAllUsers() async {
     final token = dotEnv.env['GITHUB_TOKEN'];
