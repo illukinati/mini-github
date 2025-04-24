@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mini_github/domain/values/failure_state.dart';
+import 'package:mini_github/infrastructure/core/constant.dart';
 import 'package:mini_github/infrastructure/core/urls.dart';
 import 'package:mini_github/infrastructure/models/repo_model.dart';
 import 'package:mini_github/infrastructure/models/user_model.dart';
@@ -13,7 +14,12 @@ class GithubDataSource {
   Future<Either<FailureState, List<UserModel>>> getAllUsers() async {
     try {
       Response response;
-      response = await dio.get(MyUrl.allUsersUrl);
+      response = await dio.get(
+        MyUrl.allUsersUrl,
+        options: Options(
+          headers: {'Authorization': 'token ${MyConstant.secret}'},
+        ),
+      );
       if (response.statusCode == 200) {
         List<dynamic> data = response.data;
         List<UserModel> users = data.map((e) => UserModel.fromJson(e)).toList();
@@ -22,16 +28,21 @@ class GithubDataSource {
         return left(CustomFailure(response.statusMessage ?? ""));
       }
     } on DioException catch (e) {
-      return left(CustomFailure(e.toString()));
+      return left(CustomFailure("Dio Exception: $e"));
     } catch (e) {
-      return left(CustomFailure(e.toString()));
+      return left(CustomFailure("Catch Exception: $e"));
     }
   }
 
   Future<Either<FailureState, UserModel>> getUser(String username) async {
     try {
       Response response;
-      response = await dio.get(MyUrl.userDetailUrl(username));
+      response = await dio.get(
+        MyUrl.userDetailUrl(username),
+        options: Options(
+          headers: {'Authorization': 'token ${MyConstant.secret}'},
+        ),
+      );
       final data = response.data;
       UserModel user = UserModel.fromJson(data);
       return right(user);
@@ -47,7 +58,12 @@ class GithubDataSource {
   ) async {
     try {
       Response response;
-      response = await dio.get(MyUrl.userReposUrl(username));
+      response = await dio.get(
+        MyUrl.userReposUrl(username),
+        options: Options(
+          headers: {'Authorization': 'token ${MyConstant.secret}'},
+        ),
+      );
       if (response.statusCode == 200) {
         List<dynamic> data = response.data as List<dynamic>;
         List<RepoModel> repos = data.map((e) => RepoModel.fromJson(e)).toList();
