@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mini_github/domain/values/failure_state.dart';
-import 'package:mini_github/infrastructure/core/constant.dart';
 import 'package:mini_github/infrastructure/core/urls.dart';
 import 'package:mini_github/infrastructure/models/repo_model.dart';
 import 'package:mini_github/infrastructure/models/user_model.dart';
@@ -12,13 +12,12 @@ class GithubDataSource {
   GithubDataSource({Dio? dio}) : dio = dio ?? Dio();
 
   Future<Either<FailureState, List<UserModel>>> getAllUsers() async {
+    final token = dotenv.env['GITHUB_TOKEN'];
     try {
       Response response;
       response = await dio.get(
         MyUrl.allUsersUrl,
-        options: Options(
-          headers: {'Authorization': 'token ${MyConstant.secret}'},
-        ),
+        options: Options(headers: {'Authorization': 'token $token'}),
       );
       if (response.statusCode == 200) {
         List<dynamic> data = response.data;
@@ -35,13 +34,12 @@ class GithubDataSource {
   }
 
   Future<Either<FailureState, UserModel>> getUser(String username) async {
+    final token = dotenv.env['GITHUB_TOKEN'];
     try {
       Response response;
       response = await dio.get(
         MyUrl.userDetailUrl(username),
-        options: Options(
-          headers: {'Authorization': 'token ${MyConstant.secret}'},
-        ),
+        options: Options(headers: {'Authorization': 'token $token'}),
       );
       final data = response.data;
       UserModel user = UserModel.fromJson(data);
@@ -56,13 +54,12 @@ class GithubDataSource {
   Future<Either<FailureState, List<RepoModel>>> getUserRepos(
     String username,
   ) async {
+    final token = dotenv.env['GITHUB_TOKEN'];
     try {
       Response response;
       response = await dio.get(
         MyUrl.userReposUrl(username),
-        options: Options(
-          headers: {'Authorization': 'token ${MyConstant.secret}'},
-        ),
+        options: Options(headers: {'Authorization': 'token $token'}),
       );
       if (response.statusCode == 200) {
         List<dynamic> data = response.data as List<dynamic>;
