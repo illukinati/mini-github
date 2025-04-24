@@ -81,9 +81,9 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
                       user: user,
                       onTap: () {
                         userNotifier.getUserDetail(user.login);
+                        repoNotifier.getRepos(user.login);
                         context.push(MyRouter.userDetail).then((_) {
                           userNotifier.getAllUsers();
-                          repoNotifier.getRepos(user.login);
                         });
                       },
                     );
