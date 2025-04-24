@@ -16,8 +16,8 @@ class UserEntity {
   UserEntity({
     required this.id,
     required this.login,
-    required this.avatarUrl,
-    required this.url,
+    this.avatarUrl = "",
+    this.url = "",
     this.name = "",
     this.company = "",
     this.blog = "",

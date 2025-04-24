@@ -16,5 +16,5 @@ class MyConstant {
   ///
   ///====================================================================///
 
-  static String secret = "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";
+  static String secret = "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";
 }

@@ -6,10 +6,13 @@ Widget searchBar({
   required BuildContext context,
   required bool isExpanded,
   required TextEditingController controller,
-  required Function suffixIconTapped,
-  required Function onChanged,
+  Function? suffixIconTapped,
+  Function? onChanged,
   required Function prefixIconTapped,
 }) {
+  final effectiveSuffixPressed = suffixIconTapped ?? () {};
+  final effectiveOnChanged = onChanged ?? (value) => () {};
+
   var fullWidth = MediaQuery.of(context).size.width;
 
   return Row(
@@ -27,7 +30,7 @@ Widget searchBar({
         duration: Duration(milliseconds: 300),
         curve: Curves.easeInOut,
         height: 45,
-        width: isExpanded ? fullWidth - 61 : 45,
+        width: isExpanded ? fullWidth - 70 : 45,
         decoration: BoxDecoration(
           color: MyColor.bgBlack,
           borderRadius: BorderRadius.circular(4),
@@ -48,7 +51,7 @@ Widget searchBar({
                     suffixIcon: IconButton(
                       onPressed: () {
                         FocusScope.of(context).unfocus();
-                        suffixIconTapped();
+                        effectiveSuffixPressed();
                       },
                       icon: Container(
                         decoration: BoxDecoration(
@@ -60,7 +63,7 @@ Widget searchBar({
                     ),
                   ),
                   onChanged: (value) {
-                    onChanged();
+                    effectiveOnChanged(value);
                   },
                 )
                 : Container(
@@ -77,6 +80,7 @@ Widget searchBar({
                   ),
                 ),
       ),
+      SizedBox(width: 8),
     ],
   );
 }

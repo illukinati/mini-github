@@ -105,9 +105,9 @@ class UserModel {
     return UserEntity(
       id: id!,
       login: login!,
-      avatarUrl: avatarUrl!,
-      url: url!,
-      name: name!,
+      avatarUrl: avatarUrl ?? "",
+      url: url ?? "",
+      name: name ?? "",
       company: company ?? "",
       blog: blog ?? "",
       location: location ?? "",
