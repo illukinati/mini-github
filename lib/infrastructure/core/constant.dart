@@ -16,5 +16,5 @@ class MyConstant {
   ///
   ///====================================================================///
 
-  static String myToken = "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";
+  static String secret = "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";
 }

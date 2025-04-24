@@ -14,7 +14,7 @@ class GithubDataSource {
       response = await dio.get(
         MyUrl.allUsersUrl,
         options: Options(
-          headers: {'Authorization': 'token ${MyConstant.myToken}'},
+          headers: {'Authorization': 'token ${MyConstant.secret}'},
         ),
       );
       final data = response.data;
@@ -34,7 +34,7 @@ class GithubDataSource {
       response = await dio.get(
         MyUrl.userDetailUrl(username),
         options: Options(
-          headers: {'Authorization': 'token ${MyConstant.myToken}'},
+          headers: {'Authorization': 'token ${MyConstant.secret}'},
         ),
       );
       final data = response.data;
@@ -56,7 +56,7 @@ class GithubDataSource {
       response = await dio.get(
         MyUrl.userReposUrl(username),
         options: Options(
-          headers: {'Authorization': 'token ${MyConstant.myToken}'},
+          headers: {'Authorization': 'token ${MyConstant.secret}'},
         ),
       );
       final data = response.data;
