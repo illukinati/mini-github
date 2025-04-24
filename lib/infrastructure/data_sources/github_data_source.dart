@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mini_github/domain/values/failure_state.dart';
@@ -8,11 +9,14 @@ import 'package:mini_github/infrastructure/models/user_model.dart';
 
 class GithubDataSource {
   final Dio dio;
+  final DotEnv dotEnv;
 
-  GithubDataSource({Dio? dio}) : dio = dio ?? Dio();
+  GithubDataSource({Dio? dio, DotEnv? dotEnv})
+    : dio = dio ?? Dio(),
+      dotEnv = dotEnv ?? DotEnv();
 
   Future<Either<FailureState, List<UserModel>>> getAllUsers() async {
-    final token = dotenv.env['GITHUB_TOKEN'];
+    final token = dotEnv.env['GITHUB_TOKEN'];
     try {
       Response response;
       response = await dio.get(
@@ -34,7 +38,7 @@ class GithubDataSource {
   }
 
   Future<Either<FailureState, UserModel>> getUser(String username) async {
-    final token = dotenv.env['GITHUB_TOKEN'];
+    final token = dotEnv.env['GITHUB_TOKEN'];
     try {
       Response response;
       response = await dio.get(
@@ -54,7 +58,7 @@ class GithubDataSource {
   Future<Either<FailureState, List<RepoModel>>> getUserRepos(
     String username,
   ) async {
-    final token = dotenv.env['GITHUB_TOKEN'];
+    final token = dotEnv.env['GITHUB_TOKEN'];
     try {
       Response response;
       response = await dio.get(
