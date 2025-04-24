@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mini_github/application/repo/repo_provider.dart';
 import 'package:mini_github/application/user/user_provider.dart';
 import 'package:mini_github/application/user/user_state.dart';
 import 'package:mini_github/presentation/core/colors.dart';
-import 'package:mini_github/presentation/widgets/avatar.dart';
+import 'package:mini_github/presentation/core/router.dart';
 import 'package:mini_github/presentation/widgets/search_bar.dart';
 import 'package:mini_github/presentation/widgets/user_card.dart';
 
@@ -32,10 +34,7 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
   Widget build(BuildContext context) {
     final userState = ref.watch(userNotifierProvider);
     final userNotifier = ref.watch(userNotifierProvider.notifier);
-
-    ref.listen(userNotifierProvider, (_, state) {
-      // debugPrint("state: $state");
-    });
+    final repoNotifier = ref.watch(repoNotifierProvider.notifier);
 
     return Scaffold(
       backgroundColor: MyColor.bgBlack,
@@ -78,7 +77,16 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
                   itemCount: userState.users.length,
                   itemBuilder: (ctx, index) {
                     var user = userState.users[index];
-                    return userCard(user: user);
+                    return userCard(
+                      user: user,
+                      onTap: () {
+                        userNotifier.getUserDetail(user.login);
+                        context.push(MyRouter.userDetail).then((_) {
+                          userNotifier.getAllUsers();
+                          repoNotifier.getRepos(user.login);
+                        });
+                      },
+                    );
                   },
                 ),
               ),

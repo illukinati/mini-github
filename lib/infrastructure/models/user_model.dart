@@ -89,7 +89,7 @@ class UserModel {
     _login = json['login'];
     _id = json['id'];
     _avatarUrl = json['avatar_url'];
-    _url = json['url'];
+    _url = json['html_url'];
     _name = json['name'];
     _company = json['company'];
     _blog = json['blog'];

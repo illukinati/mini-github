@@ -47,7 +47,7 @@ class RepoModel {
     _id = json['id'];
     _name = json['name'];
     _description = json['description'];
-    _url = json['url'];
+    _url = json['html_url'];
     _stargazersCount = json['stargazers_count'];
     _language = json['language'];
   }

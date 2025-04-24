@@ -7,4 +7,5 @@ class MyColor {
   static Color lightGrey = Color.fromRGBO(146, 152, 160, 1);
   static Color border = Color.fromRGBO(57, 64, 71, 1);
   static Color blue = Color.fromRGBO(86, 140, 232, 1);
+  static Color orange = Color.fromRGBO(232, 135, 109, 1);
 }

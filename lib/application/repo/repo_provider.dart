@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:mini_github/application/code/core_provider.dart';
 import 'package:mini_github/application/repo/repo_state.dart';
 import 'package:mini_github/application/repo/repo_use_case.dart';

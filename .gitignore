@@ -9,6 +9,8 @@
 .history
 .svn/
 .env
+ios/
+android/
 
 # IntelliJ related
 *.iml
