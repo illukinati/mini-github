@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mini_github/domain/entities/user_entity.dart';
 import 'package:mini_github/presentation/core/colors.dart';
 
-Widget profileCompany({required UserEntity user}) {
+Widget profileCompany({UserEntity? user}) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
@@ -15,7 +15,7 @@ Widget profileCompany({required UserEntity user}) {
       Expanded(
         flex: 1,
         child: Text(
-          user.company.isEmpty ? "ー" : user.company,
+          (user?.company.isEmpty ?? true) ? "-" : user!.company,
           style: TextStyle(
             color: MyColor.white,
             fontSize: 12,

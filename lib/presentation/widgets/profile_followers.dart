@@ -3,7 +3,7 @@ import 'package:mini_github/domain/entities/user_entity.dart';
 import 'package:mini_github/presentation/core/colors.dart';
 import 'package:mini_github/presentation/core/formatter.dart';
 
-Widget profileFollowers({required UserEntity user}) {
+Widget profileFollowers({UserEntity? user}) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
@@ -14,7 +14,7 @@ Widget profileFollowers({required UserEntity user}) {
       ),
       SizedBox(width: 16),
       Text(
-        MyFormatter.numberFormatter(user.followers),
+        MyFormatter.numberFormatter(user?.followers ?? 0),
         style: TextStyle(
           fontFamily: "Roboto",
           color: MyColor.white,
@@ -31,7 +31,7 @@ Widget profileFollowers({required UserEntity user}) {
         ),
       ),
       Text(
-        MyFormatter.numberFormatter(user.following),
+        MyFormatter.numberFormatter(user?.following ?? 0),
         style: TextStyle(
           fontFamily: "Roboto",
           color: MyColor.white,

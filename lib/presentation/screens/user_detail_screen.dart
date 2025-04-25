@@ -6,14 +6,13 @@ import 'package:mini_github/application/repo/repo_state.dart' as repo_state;
 import 'package:mini_github/application/user/user_provider.dart';
 import 'package:mini_github/application/user/user_state.dart';
 import 'package:mini_github/presentation/core/colors.dart';
-import 'package:mini_github/presentation/widgets/profile_blog.dart';
-import 'package:mini_github/presentation/widgets/profile_bio.dart';
-import 'package:mini_github/presentation/widgets/profile_company.dart';
-import 'package:mini_github/presentation/widgets/profile_email.dart';
-import 'package:mini_github/presentation/widgets/profile_followers.dart';
-import 'package:mini_github/presentation/widgets/profile_header.dart';
+import 'package:mini_github/presentation/core/fakes.dart';
 import 'package:mini_github/presentation/widgets/repo_card.dart';
 import 'package:mini_github/presentation/widgets/repo_header.dart';
+import 'package:mini_github/presentation/widgets/skeleton_profile.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+
+import '../../application/repo/repo_state.dart' show ReposFound;
 
 class UserDetailScreen extends ConsumerWidget {
   const UserDetailScreen({super.key});
@@ -44,34 +43,31 @@ class UserDetailScreen extends ConsumerWidget {
           child: Column(
             children: [
               if (userState is Loading)
-                Center(child: CircularProgressIndicator(color: MyColor.blue)),
-              if (userState is UserFound) ...[
-                profileHeader(user: userState.user),
-                _spacer(),
-                profileBio(user: userState.user),
-                _spacer(),
-                profileEmail(user: userState.user),
-                _spacer(),
-                profileCompany(user: userState.user),
-                _spacer(),
-                profileBlog(user: userState.user),
-                _spacer(),
-                profileFollowers(user: userState.user),
-              ],
+                userProfile(user: MyFakeData.instance.user, state: userState),
+              if (userState is UserFound)
+                userProfile(user: userState.user, state: userState),
               _spacer(),
               _spacer(),
-              if (repoState is repo_state.ReposFound) ...[
-                repoHeader(repos: repoState.repos),
-                ListView.builder(
+              repoHeader(state: repoState),
+              Skeletonizer(
+                enabled: repoState is repo_state.Loading,
+                child: ListView.builder(
                   shrinkWrap: true,
                   physics: ScrollPhysics(),
-                  itemCount: repoState.repos.length,
+                  itemCount:
+                      (repoState is ReposFound) ? repoState.repos.length : 10,
                   itemBuilder: (ctx, index) {
-                    var repo = repoState.repos[index];
-                    return repoCard(repo: repo);
+                    if (repoState is repo_state.Loading) {
+                      return repoCard(repo: MyFakeData.instance.repo);
+                    } else if (repoState is repo_state.ReposFound) {
+                      var repo = repoState.repos[index];
+                      return repoCard(repo: repo);
+                    } else {
+                      return Center(child: Text("No Repos Found"));
+                    }
                   },
                 ),
-              ],
+              ),
             ],
           ),
         ),

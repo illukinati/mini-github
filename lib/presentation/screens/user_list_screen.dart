@@ -6,6 +6,7 @@ import 'package:mini_github/application/user/user_provider.dart';
 import 'package:mini_github/application/user/user_state.dart';
 import 'package:mini_github/domain/entities/user_entity.dart';
 import 'package:mini_github/presentation/core/colors.dart';
+import 'package:mini_github/presentation/core/fakes.dart';
 import 'package:mini_github/presentation/core/router.dart';
 import 'package:mini_github/presentation/widgets/search_bar.dart';
 import 'package:mini_github/presentation/widgets/user_card.dart';
@@ -94,6 +95,20 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
                   ),
                 ),
               ),
+            if (userState is Loading)
+              Expanded(
+                flex: 1,
+                child: ListView.builder(
+                  itemCount: 100,
+                  itemBuilder: (ctx, index) {
+                    return userCard(
+                      state: userState,
+                      user: MyFakeData.instance.user,
+                      onTap: () {},
+                    );
+                  },
+                ),
+              ),
             if (userState is UsersFound)
               Expanded(
                 flex: 1,
@@ -102,13 +117,15 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
                   itemBuilder: (ctx, index) {
                     var user = sortedUsers[index];
                     return userCard(
+                      state: userState,
                       user: user,
                       onTap: () {
-                        userNotifier.getUserDetail(user.login);
-                        repoNotifier.getRepos(user.login);
-                        context.push(MyRouter.userDetail).then((_) {
+                        context.push(MyRouter.userDetail).then((_) async {
+                          await Future.delayed(Duration(milliseconds: 500));
                           userNotifier.getAllUsers();
                         });
+                        userNotifier.getUserDetail(user.login);
+                        repoNotifier.getRepos(user.login);
                       },
                     );
                   },

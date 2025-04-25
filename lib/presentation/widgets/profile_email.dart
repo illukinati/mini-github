@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mini_github/domain/entities/user_entity.dart';
 import 'package:mini_github/presentation/core/colors.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-Widget profileEmail({required UserEntity user}) {
+Widget profileEmail({UserEntity? user}) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
@@ -13,7 +14,7 @@ Widget profileEmail({required UserEntity user}) {
       ),
       SizedBox(width: 16),
       Text(
-        user.email.isEmpty ? "ー" : user.email,
+        (user?.email.isEmpty ?? true) ? "-" : user!.email,
         style: TextStyle(
           color: MyColor.white,
           fontSize: 12,
@@ -27,12 +28,15 @@ Widget profileEmail({required UserEntity user}) {
         child: Icon(Icons.location_on_outlined, color: MyColor.white),
       ),
       SizedBox(width: 16),
-      Text(
-        user.location.isEmpty ? "ー" : user.location,
-        style: TextStyle(
-          color: MyColor.white,
-          fontSize: 12,
-          fontWeight: FontWeight.w900,
+      Expanded(
+        flex: 1,
+        child: Text(
+          (user?.location.isEmpty ?? true) ? "-" : user!.location,
+          style: TextStyle(
+            color: MyColor.white,
+            fontSize: 12,
+            fontWeight: FontWeight.w900,
+          ),
         ),
       ),
     ],

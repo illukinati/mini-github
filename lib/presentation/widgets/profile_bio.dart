@@ -6,6 +6,7 @@ Widget profileBio({required UserEntity user}) {
   return ConstrainedBox(
     constraints: BoxConstraints(minHeight: 40),
     child: Container(
+      padding: EdgeInsets.all(8),
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
@@ -13,7 +14,7 @@ Widget profileBio({required UserEntity user}) {
       ),
       alignment: Alignment.center,
       child: Text(
-        (user.bio).isEmpty ? "No Bio" : user.bio,
+        user.bio.isEmpty ? "No Bio" : user.bio,
         style: TextStyle(
           color: MyColor.white,
           fontSize: 12,

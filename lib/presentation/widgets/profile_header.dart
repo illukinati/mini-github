@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mini_github/domain/entities/user_entity.dart';
 import 'package:mini_github/presentation/core/colors.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'avatar.dart';

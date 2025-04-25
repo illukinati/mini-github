@@ -24,13 +24,16 @@ Widget repoCard({required RepoEntity repo}) {
             children: [
               Icon(Icons.book, color: MyColor.lightGrey),
               SizedBox(width: 8),
-              Text(
-                repo.repositoryName,
-                style: TextStyle(
-                  color: MyColor.blue,
-                  fontSize: 16,
-                  fontFamily: "Roboto",
-                  fontWeight: FontWeight.w900,
+              Expanded(
+                flex: 1,
+                child: Text(
+                  repo.repositoryName,
+                  style: TextStyle(
+                    color: MyColor.blue,
+                    fontSize: 16,
+                    fontFamily: "Roboto",
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
               ),
             ],

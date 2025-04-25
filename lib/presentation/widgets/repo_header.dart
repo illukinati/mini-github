@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:mini_github/application/repo/repo_state.dart';
 import 'package:mini_github/domain/entities/repo_entity.dart';
 import 'package:mini_github/presentation/core/colors.dart';
 
-Widget repoHeader({required List<RepoEntity> repos}) {
+Widget repoHeader({required RepoState state}) {
+  List<RepoEntity>? repos;
+
+  if (state is ReposFound) {
+    repos = state.repos;
+  }
   return Row(
     crossAxisAlignment: CrossAxisAlignment.end,
     children: [
@@ -24,21 +30,22 @@ Widget repoHeader({required List<RepoEntity> repos}) {
               ),
             ),
             SizedBox(width: 8),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 4),
-              decoration: BoxDecoration(
-                color: MyColor.blue,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Text(
-                repos.length.toString(),
-                style: TextStyle(
-                  color: MyColor.white,
-                  fontFamily: "Roboto",
-                  fontWeight: FontWeight.bold,
+            if (repos != null)
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 4),
+                decoration: BoxDecoration(
+                  color: MyColor.blue,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Text(
+                  repos.length.toString(),
+                  style: TextStyle(
+                    color: MyColor.white,
+                    fontFamily: "Roboto",
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       ),
