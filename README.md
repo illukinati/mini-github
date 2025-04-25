@@ -91,6 +91,10 @@ These are packages that I am using:
 
 > url_launcher allows the app to open external URLs, send emails, or make phone calls—essential for many real-world app features.
 
+`skeletonizer`
+
+> UI skeleton loading is a technique used to enhance user experience during web or app loading.
+
 ## Demo
 
 ### User List Screen
