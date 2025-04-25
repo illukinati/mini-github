@@ -36,12 +36,10 @@ flutter create --platforms=android,ios .
 flutter pub get
 
 ```
-
+Note: Please delete `widget_test.dart` in the `test` folder to prevent error while testing. 
 Now, you should be able to run on your device or simulator.
 
 ## Run and Testing
-
-Yes, I'm not only buildin
 
 To run a Flutter project on your device/simulator, run this code on your terminal
 ```
@@ -144,4 +142,6 @@ These are packages that I am using:
 ○ Description
 
 ![5](https://github.com/user-attachments/assets/acf0d773-20d9-48d1-a71f-dd920a4c1a77)
+
+● I added a sort function both ascending and descending
 

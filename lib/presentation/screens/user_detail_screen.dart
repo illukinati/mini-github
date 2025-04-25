@@ -60,8 +60,6 @@ class UserDetailScreen extends ConsumerWidget {
               ],
               _spacer(),
               _spacer(),
-              if (repoState is repo_state.Loading)
-                Center(child: CircularProgressIndicator(color: MyColor.blue)),
               if (repoState is repo_state.ReposFound) ...[
                 repoHeader(repos: repoState.repos),
                 ListView.builder(

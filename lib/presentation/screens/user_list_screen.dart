@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mini_github/application/repo/repo_provider.dart';
 import 'package:mini_github/application/user/user_provider.dart';
 import 'package:mini_github/application/user/user_state.dart';
+import 'package:mini_github/domain/entities/user_entity.dart';
 import 'package:mini_github/presentation/core/colors.dart';
 import 'package:mini_github/presentation/core/router.dart';
 import 'package:mini_github/presentation/widgets/search_bar.dart';
@@ -36,11 +37,34 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
     final userNotifier = ref.watch(userNotifierProvider.notifier);
     final repoNotifier = ref.watch(repoNotifierProvider.notifier);
 
+    final sortMode = ref.watch(userSortProvider);
+    List<UserEntity> sortedUsers = [];
+
+    if (userState is UsersFound) {
+      sortedUsers = [...userState.users];
+
+      switch (sortMode) {
+        case SortMode.ascending:
+          sortedUsers.sort(
+            (a, b) => a.login.toLowerCase().compareTo(b.login.toLowerCase()),
+          );
+          break;
+        case SortMode.descending:
+          sortedUsers.sort(
+            (a, b) => b.login.toLowerCase().compareTo(a.login.toLowerCase()),
+          );
+          break;
+        case SortMode.none:
+          break;
+      }
+    }
+
     return Scaffold(
       backgroundColor: MyColor.bgBlack,
       body: SafeArea(
         child: Column(
           children: [
+            SizedBox(height: 16),
             searchBar(
               context: context,
               isExpanded: _isExpanded,
@@ -74,9 +98,9 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
               Expanded(
                 flex: 1,
                 child: ListView.builder(
-                  itemCount: userState.users.length,
+                  itemCount: sortedUsers.length,
                   itemBuilder: (ctx, index) {
-                    var user = userState.users[index];
+                    var user = sortedUsers[index];
                     return userCard(
                       user: user,
                       onTap: () {
@@ -93,6 +117,29 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        shape: CircleBorder(),
+        backgroundColor: MyColor.blue,
+        onPressed: () {
+          final current = ref.read(userSortProvider);
+          final next =
+              current == SortMode.none
+                  ? SortMode.ascending
+                  : current == SortMode.ascending
+                  ? SortMode.descending
+                  : SortMode.none;
+          ref.read(userSortProvider.notifier).state = next;
+        },
+        child: iconSort(sortMode),
+      ),
     );
+  }
+
+  Widget iconSort(SortMode mode) {
+    return switch (mode) {
+      SortMode.none => Icon(Icons.sort_by_alpha_rounded, color: MyColor.white),
+      SortMode.ascending => Icon(Icons.arrow_upward, color: MyColor.white),
+      SortMode.descending => Icon(Icons.arrow_downward, color: MyColor.white),
+    };
   }
 }

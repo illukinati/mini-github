@@ -23,7 +23,6 @@ Widget profileHeader({required UserEntity user}) {
                 color: MyColor.white,
                 fontWeight: FontWeight.w900,
               ),
-              overflow: TextOverflow.ellipsis,
             ),
             Text(
               user.login,

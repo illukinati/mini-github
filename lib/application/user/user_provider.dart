@@ -80,3 +80,7 @@ final userNotifierProvider = StateNotifierProvider<UserNotifier, UserState>((
     searchUsersUseCase: ref.watch(searchUsersUseCaseProvider),
   );
 });
+
+final userSortProvider = StateProvider<SortMode>((ref) => SortMode.none);
+
+enum SortMode { none, ascending, descending }
