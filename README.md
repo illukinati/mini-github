@@ -105,17 +105,19 @@ These are packages that I am using:
 
 ○ Username
 
-![1](https://github.com/user-attachments/assets/d5d76985-b0bc-4a8c-9387-80a8c6c27c25)
+![list](https://github.com/user-attachments/assets/66b2b2a8-5de0-4cc1-98cc-e57889aa6b58)
 
 ● Tapping an item navigates to the user repository screen
 
-![2](https://github.com/user-attachments/assets/b0c702b1-09ea-4726-bb0f-86ae9ad2cd25)
+![tap-to-detail](https://github.com/user-attachments/assets/941eff55-0b52-4371-96a4-dd002497a30a)
+
 
 ● Display a fixed search input field at the top of the screen
 
 ● Display the list of users below the search field based on the entered keyword
 
-![3](https://github.com/user-attachments/assets/0720871f-1cfe-4eeb-a7c6-f6e46aba2493)
+![search-user](https://github.com/user-attachments/assets/336c3839-c9f1-45d4-bfa1-f2f080b4dc7f)
+
 
 ### User Details Screen
 
@@ -131,9 +133,13 @@ These are packages that I am using:
 
 ○ Following count
 
+![detail-user](https://github.com/user-attachments/assets/da9b7aa1-0e9e-4d50-88d1-df8e8c67d55a)
+
+
 ● Tapping a repository opens its web page
 
-![4](https://github.com/user-attachments/assets/8272d454-f0d5-41eb-9d3a-7666690fa18e)
+![open-repo](https://github.com/user-attachments/assets/51fea41d-089a-48f3-8e04-e35697907eff)
+
 
 ● Below that, display a list of the user’s repositories, excluding forked ones
 
@@ -145,7 +151,11 @@ These are packages that I am using:
 
 ○ Description
 
-![5](https://github.com/user-attachments/assets/acf0d773-20d9-48d1-a71f-dd920a4c1a77)
+![list-repo](https://github.com/user-attachments/assets/2486d8ac-0fbc-4df5-9f7f-7b428d9c9d2a)
 
-● I added a sort function both ascending and descending
+
+● I added a sort function, both ascending and descending
+
+![sorting](https://github.com/user-attachments/assets/32249c25-5658-4c13-b6c6-977cfd9041f4)
+
 
